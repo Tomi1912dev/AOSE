@@ -2,13 +2,15 @@ package energy;
 
 import javafx.util.Pair;
 
-public class Energy {
+import java.io.Serializable;
+
+public class Energy implements Serializable {
     private int id;
     private Type type;
     private double price;
-    private Pair<Time, Time> hourConsumption;
+    private Pair<Integer, Integer> hourConsumption;
 
-    public Energy(int id, Type type, double price, Pair<Time, Time> hourConsumption) {
+    public Energy(int id, Type type, double price, Pair<Integer, Integer> hourConsumption) {
         this.id = id;
         this.type = type;
         this.price = price;
@@ -27,7 +29,20 @@ public class Energy {
         return price;
     }
 
-    public Pair<Time, Time> getHourConsumption() {
+    public Pair<Integer, Integer> getHourConsumption() {
         return hourConsumption;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        sb.append(id)
+                .append(", ")
+                .append(type)
+                .append(", ")
+                .append(price)
+                .append(", ")
+                .append(hourConsumption.getKey() + "h/" + hourConsumption.getValue() + "h]");
+        return sb.toString();
     }
 }
