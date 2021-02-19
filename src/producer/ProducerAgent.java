@@ -38,8 +38,12 @@ public class ProducerAgent<p> extends Agent {
             // Transitions
             behaviour.registerDefaultTransition(BEHAVIOUR_REGISTER, BEHAVIOUR_PUBLISH);
             behaviour.registerDefaultTransition(BEHAVIOUR_PUBLISH, BEHAVIOUR_REQUEST_ORDER);
-            behaviour.registerDefaultTransition(BEHAVIOUR_REQUEST_ORDER, BEHAVIOUR_CONFIRM_ORDER);
-            behaviour.registerDefaultTransition(BEHAVIOUR_CONFIRM_ORDER, BEHAVIOUR_LAST);
+            //behaviour.registerDefaultTransition(BEHAVIOUR_REQUEST_ORDER, BEHAVIOUR_CONFIRM_ORDER);
+            behaviour.registerTransition(BEHAVIOUR_REQUEST_ORDER, BEHAVIOUR_CONFIRM_ORDER, 0);
+            behaviour.registerTransition(BEHAVIOUR_REQUEST_ORDER, BEHAVIOUR_REQUEST_ORDER, 1);
+            //behaviour.registerDefaultTransition(BEHAVIOUR_CONFIRM_ORDER, BEHAVIOUR_LAST);
+            behaviour.registerTransition(BEHAVIOUR_CONFIRM_ORDER, BEHAVIOUR_LAST, 0);
+            behaviour.registerTransition(BEHAVIOUR_CONFIRM_ORDER, BEHAVIOUR_PUBLISH, 1);
 
             addBehaviour(behaviour);
         }
@@ -96,6 +100,15 @@ public class ProducerAgent<p> extends Agent {
                 this.send(response);
             } catch (UnreadableException e) { e.printStackTrace(); }
         }
+    }
+
+    public boolean allEnergyEmpty() {
+        for(Energy energy: energies) {
+            if(energy.getQuantity() > 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

@@ -11,7 +11,12 @@ public class ChooseProducerBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        //agent.doWait(1000);
-        agent.choose();
+        if(agent.getBackState()) {
+            agent.getPreference().updateBudget();
+            agent.choose();
+            agent.setBackState(false);
+        } else {
+            agent.choose();
+        }
     }
 }

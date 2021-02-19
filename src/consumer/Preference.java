@@ -6,15 +6,15 @@ public class Preference implements Serializable {
     private Policy policy;
     private double budget;
     private double maxBudget;
-    private int upperBoundHour;
     private int lowerBoundHour;
+    private int upperBoundHour;
 
-    public Preference(Policy policy, double budget, double maxBudget, int upperBoundHour, int lowerBoundHour) {
+    public Preference(Policy policy, double budget, double maxBudget, int lowerBoundHour, int upperBoundHour) {
         this.policy = policy;
         this.budget = budget;
         this.maxBudget = maxBudget;
-        this.upperBoundHour = upperBoundHour;
         this.lowerBoundHour = lowerBoundHour;
+        this.upperBoundHour = upperBoundHour;
     }
 
     public Policy getPolicy() {
@@ -25,15 +25,15 @@ public class Preference implements Serializable {
         return budget;
     }
 
-    public double getMaxBudget() {
-        return maxBudget;
+    public int getLowerBoundHour() {
+        return lowerBoundHour;
     }
 
     public int getUpperBoundHour() {
         return upperBoundHour;
     }
 
-    public int getLowerBoundHour() {
-        return lowerBoundHour;
+    public void updateBudget() {
+        this.budget = this.maxBudget;
     }
 }
