@@ -1,6 +1,7 @@
 package producer;
 
 import energy.Energy;
+import interfaces.SystemAgentManager;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
@@ -9,7 +10,7 @@ import jade.lang.acl.ACLMessage;
 import java.io.IOException;
 import java.util.List;
 
-public class ProducerAgent<p> extends Agent {
+public class ProducerAgent<p> extends Agent implements SystemAgentManager{
     private static final String BEHAVIOUR_REGISTER = "register";
     private static final String BEHAVIOUR_PUBLISH = "publish";
     private static final String BEHAVIOUR_REQUEST_ORDER = "requestOrder";
@@ -18,6 +19,7 @@ public class ProducerAgent<p> extends Agent {
     private Energy[] energies;
 
     protected void setup() {
+        registerO2AInterface(SystemAgentManager.class,this);
         this.energies = (Energy[]) getArguments();
         if (energies != null && energies.length > 0) {
             FSMBehaviour behaviour = new FSMBehaviour(this);
@@ -70,6 +72,13 @@ public class ProducerAgent<p> extends Agent {
 
     public void confirmOrder() {
         //to do
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.energies);
+        return sb.toString();
     }
 
 }

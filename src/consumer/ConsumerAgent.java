@@ -39,6 +39,7 @@ public class ConsumerAgent extends Agent {
             behaviour.registerDefaultTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_LAST);
             //behaviour.registerTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER, 0);
 
+
             addBehaviour(behaviour);
         }
     }

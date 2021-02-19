@@ -1,7 +1,7 @@
 package energy;
 
 import jade.core.AID;
-import javafx.util.Pair;
+
 
 import java.io.Serializable;
 

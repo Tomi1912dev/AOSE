@@ -20,10 +20,12 @@ public class MakeOrderBehaviour extends OneShotBehaviour {
     @Override
     public void action() {
         //receive energies proposed by the marketplace
-        agent.doWait(1000);
+        agent.doWait(5000);
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
         ACLMessage response = agent.receive(mt);
+        System.out.println("ok3");
         if (response != null) {
+            System.out.println("ok4");
             try {
                 Energy[] energies = (Energy[]) response.getContentObject();
                 if(energies != null && energies.length > 0) {

@@ -11,7 +11,7 @@ public class ChooseProducerBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        //agent.doWait(1000);
+        agent.doWait(10000);
         agent.choose();
     }
 }

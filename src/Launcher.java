@@ -10,19 +10,22 @@ import jade.core.Runtime;
 import jade.wrapper.AgentContainer;
 import jade.wrapper.AgentController;
 import jade.wrapper.StaleProxyException;
-import javafx.util.Pair;
+import jade.wrapper.State;
 import marketplace.SystemAgent;
 import producer.ProducerAgent;
 
 
 public class Launcher {
-    public static void main(String[] args) {
+
+    public static void test1(){
         Runtime runtime = Runtime.instance();
         Profile config = new ProfileImpl("localhost", 8888, null);
         config.setParameter("gui", "true");
         AgentContainer mc = runtime.createMainContainer(config);
         AgentController systemAgent;
-        AgentController producerAgent;
+        AgentController producerAgent1;
+        AgentController producerAgent2;
+        AgentController producerAgent3;
         AgentController consumerAgent;
         try {
             Energy[] energies = {
@@ -31,16 +34,30 @@ public class Launcher {
                     new Energy(2, Type.CLASSIC, 127.16, 9, 10),
                     new Energy(3, Type.RENEWABLE, 139.21, 14, 17)
             };
-            Preference[] preference = { new Preference(Policy.RENEWABLE,
+            Preference[] preference = {new Preference(Policy.RENEWABLE,
                     128.0, 10.0,
-                    9, 10) };
+                    9, 10)};
 
             systemAgent = mc.createNewAgent("SystemAgent", SystemAgent.class.getName(), null);
             systemAgent.start();
-            producerAgent = mc.createNewAgent("ProducerAgent", ProducerAgent.class.getName(), energies);
-            producerAgent.start();
+            producerAgent1 = mc.createNewAgent("ProducerAgent1", ProducerAgent.class.getName(), energies);
+            producerAgent1.start();
+            producerAgent2 = mc.createNewAgent("ProducerAgent2", ProducerAgent.class.getName(), energies);
+            producerAgent2.start();
+            producerAgent3 = mc.createNewAgent("ProducerAgent2", ProducerAgent.class.getName(), energies);
+            producerAgent3.start();
             consumerAgent = mc.createNewAgent("ConsumerAgent", ConsumerAgent.class.getName(), preference);
             consumerAgent.start();
-        } catch (StaleProxyException e) { e.printStackTrace(); }
+            State s = consumerAgent.getState();
+
+            System.out.println(s.toString());
+        } catch (StaleProxyException e) {
+            e.printStackTrace();
+        }
+    }//fin test1
+    public static void main(String[] args) {
+
+        test1();
+
     }
 }
