@@ -1,6 +1,7 @@
 package consumer;
 
 import energy.Energy;
+import energy.Order;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
@@ -17,6 +18,7 @@ public class ConsumerAgent extends Agent {
     private static final String BEHAVIOUR_LAST = "last";
 
     private Preference[] preference;
+    private Order order;
 
     public static AID SYSTEM = new AID("SystemAgent", AID.ISLOCALNAME);
 
@@ -36,7 +38,9 @@ public class ConsumerAgent extends Agent {
             // Transitions
             behaviour.registerDefaultTransition(BEHAVIOUR_REGISTER, BEHAVIOUR_CHOOSE_PRODUCER);
             behaviour.registerDefaultTransition(BEHAVIOUR_CHOOSE_PRODUCER, BEHAVIOUR_MAKE_ORDER);
-            behaviour.registerDefaultTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_LAST);
+            behaviour.registerDefaultTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER);
+            behaviour.registerDefaultTransition(BEHAVIOUR_PAY_ORDER, BEHAVIOUR_GET_ORDER);
+            behaviour.registerDefaultTransition(BEHAVIOUR_GET_ORDER, BEHAVIOUR_LAST);
             //behaviour.registerTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER, 0);
 
 
@@ -68,13 +72,22 @@ public class ConsumerAgent extends Agent {
     }
 
     public void makeOrder(Energy energy) {
-        //to do
+        System.out.println(energy);
+        this.order = new Order(this.getAID(), energy);
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-        message.addReceiver(energy.getProducer());
+        message.addReceiver(this.order.getEnergy().getProducer());
         message.setConversationId("make-order");
-        try { message.setContentObject(energy); }
+        try { message.setContentObject(this.order); }
         catch (IOException e) { e.printStackTrace(); }
         this.send(message);
     }
 
+    public void payOrder() {
+        ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+        message.addReceiver(this.order.getEnergy().getProducer());
+        message.setConversationId("pay-order");
+        try { message.setContentObject(this.order); }
+        catch (IOException e) { e.printStackTrace(); }
+        this.send(message);
+    }
 }
