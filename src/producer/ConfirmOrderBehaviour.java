@@ -2,15 +2,16 @@ package producer;
 
 import jade.core.behaviours.OneShotBehaviour;
 
-public class LastBehaviour extends OneShotBehaviour {
+public class ConfirmOrderBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
 
-    public LastBehaviour(ProducerAgent agent) {
+    public ConfirmOrderBehaviour(ProducerAgent agent) {
         this.agent = agent;
     }
 
     @Override
     public void action() {
-        System.out.println("producer finish");
+        agent.doWait(1000);
+        agent.confirmOrder();
     }
 }

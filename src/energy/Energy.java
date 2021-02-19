@@ -1,28 +1,23 @@
 package energy;
 
 import jade.core.AID;
-import javafx.util.Pair;
 
 import java.io.Serializable;
 
 public class Energy implements Serializable, Comparable<Energy> {
-    private int id;
     private Type type;
     private double price;
+    private int quantity;
     private int lowerBoundHour;
     private int upperBoundHour;
     private AID producer;
 
-    public Energy(int id, Type type, double price, int lowerBoundHour, int upperBoundHour) {
-        this.id = id;
+    public Energy(Type type, double price, int quantity, int lowerBoundHour, int upperBoundHour) {
         this.type = type;
         this.price = price;
+        this.quantity = quantity;
         this.lowerBoundHour = lowerBoundHour;
         this.upperBoundHour = upperBoundHour;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public Type getType() {
@@ -31,6 +26,14 @@ public class Energy implements Serializable, Comparable<Energy> {
 
     public double getPrice() {
         return price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getLowerBoundHour() {
@@ -52,12 +55,12 @@ public class Energy implements Serializable, Comparable<Energy> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        sb.append(id)
-                .append(", ")
-                .append(type)
+        sb.append(type)
                 .append(", ")
                 .append(price)
-                .append(", ")
+                .append("€, ")
+                .append(quantity)
+                .append(" Qty, ")
                 .append(lowerBoundHour + "h/" + upperBoundHour + "h, ")
                 .append(producer.getName() + "]");
         return sb.toString();
@@ -70,11 +73,11 @@ public class Energy implements Serializable, Comparable<Energy> {
                 && this.getPrice() == energy.getPrice()
                 && this.getLowerBoundHour() == energy.getLowerBoundHour()
                 && this.getUpperBoundHour() == energy.getUpperBoundHour()
-                && this.getProducer() == energy.getProducer();
+                && this.getProducer().equals(energy.getProducer());
     }
 
     @Override
     public int compareTo(Energy energy) {
-        return this.getId() < energy.getId() ? 1 : 0;
+        return this.getPrice() < energy.getPrice() ? 1 : 0;
     }
 }

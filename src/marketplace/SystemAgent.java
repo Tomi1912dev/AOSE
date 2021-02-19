@@ -39,11 +39,9 @@ public class SystemAgent extends Agent {
                     if(message.getConversationId().equals("consumer-register")) {
                         try { agent.consumers.add((AID) message.getContentObject()); }
                         catch (UnreadableException e) { e.printStackTrace(); }
-                        //System.out.println("Consumers : " + agent.consumers);
                     } else if(message.getConversationId().equals("producer-register")) {
                         try { agent.producers.add((AID) message.getContentObject()); }
                         catch (UnreadableException e) { e.printStackTrace(); }
-                        //System.out.println("Producers : " + agent.producers);
                     } else if(message.getConversationId().equals("consumer-choose")) {
                         try {
                             ACLMessage response = message.createReply();
@@ -88,12 +86,7 @@ public class SystemAgent extends Agent {
                     if(message.getConversationId().equals("producer-publish")) {
                         try {
                             Energy[] energies = (Energy[]) message.getContentObject();
-                            for(Energy energy: energies) {
-                                energy.setProducer(message.getSender());
-                            }
                             agent.marketPlace.addAll(Arrays.asList(energies));
-                            //agent.marketPlace.addAll(Arrays.asList((Energy[]) message.getContentObject()));
-                            //Collections.sort(agent.marketPlace);
                         } catch (UnreadableException e) { e.printStackTrace(); }
                     }
                 }
@@ -105,13 +98,8 @@ public class SystemAgent extends Agent {
                     if(message.getConversationId().equals("producer-publish")) {
                         try {
                             Energy[] energies = (Energy[]) message.getContentObject();
-                            for(Energy energy: energies) {
-                                energy.setProducer(message.getSender());
-                            }
                             agent.marketPlace.addAll(Arrays.asList(energies));
-                            //Collections.sort(agent.marketPlace);
                         } catch (UnreadableException e) { e.printStackTrace(); }
-                        //System.out.println(agent.marketPlace);
                     }
                 }
             }

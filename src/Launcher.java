@@ -26,10 +26,10 @@ public class Launcher {
         AgentController consumerAgent;
         try {
             Energy[] energies = {
-                    new Energy(0, Type.RENEWABLE, 127.92, 8, 10),
-                    new Energy(1, Type.CLASSIC, 127.20, 14, 18),
-                    new Energy(2, Type.CLASSIC, 127.16, 9, 10),
-                    new Energy(3, Type.RENEWABLE, 139.21, 14, 17)
+                    new Energy(Type.RENEWABLE, 127.92, 5,8, 10),
+                    new Energy(Type.CLASSIC, 127.20, 5,14, 18),
+                    new Energy(Type.CLASSIC, 127.16, 5, 9, 10),
+                    new Energy(Type.RENEWABLE, 139.21, 5, 14, 17)
             };
             Preference[] preference = { new Preference(Policy.RENEWABLE,
                     128.0, 10.0,
