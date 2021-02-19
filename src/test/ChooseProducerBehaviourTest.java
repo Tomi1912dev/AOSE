@@ -61,7 +61,7 @@ class ChooseProducerBehaviourTest {
             assert(o2a1!=null);
             Thread.sleep(30000);
             assertEquals(o2a.toString(),"[[0, RENEWABLE, 127.92, 8h/10h, "+producerAgent.getName()+"][1, CLASSIC, 127.2, 14h/18h, ProducerAgent@172.17.0.1:8889/JADE][2, CLASSIC, 127.16, 9h/10h, ProducerAgent@172.17.0.1:8889/JADE][3, RENEWABLE, 139.21, 14h/17h, ProducerAgent@172.17.0.1:8889/JADE]]");
-            assertEquals(o2a1.toString(),);
+            //assertEquals(o2a1.toString(),);
 
             //State s = consumerAgent.getState();
             //System.out.println(s.toString());
