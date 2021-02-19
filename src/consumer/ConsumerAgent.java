@@ -2,6 +2,7 @@ package consumer;
 
 import energy.Energy;
 import energy.Order;
+import interfaces.ConsumerManager;
 import interfaces.SystemAgentManager;
 import jade.core.AID;
 import jade.core.Agent;
@@ -10,7 +11,7 @@ import jade.lang.acl.ACLMessage;
 
 import java.io.IOException;
 
-public class ConsumerAgent extends Agent implements SystemAgentManager {
+public class ConsumerAgent extends Agent implements ConsumerManager {
     private static final String BEHAVIOUR_REGISTER = "register";
     private static final String BEHAVIOUR_CHOOSE_PRODUCER = "chooseProducer";
     private static final String BEHAVIOUR_MAKE_ORDER = "makeOrder";
@@ -25,7 +26,7 @@ public class ConsumerAgent extends Agent implements SystemAgentManager {
 
     protected void setup() {
         this.preference = (Preference[]) getArguments();
-
+        registerO2AInterface(ConsumerManager.class,this);
         if (preference != null && preference.length > 0) {
             FSMBehaviour behaviour = new FSMBehaviour(this);
 
@@ -93,7 +94,19 @@ public class ConsumerAgent extends Agent implements SystemAgentManager {
         this.send(message);
     }
 
+    @Override
     public Order getOrder(){
         return this.order;
+    }
+
+    @Override
+    public String toStringPreferences(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Preference p : preference){
+            sb.append(p.toString());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

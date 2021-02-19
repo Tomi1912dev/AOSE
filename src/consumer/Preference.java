@@ -36,4 +36,17 @@ public class Preference implements Serializable {
     public int getLowerBoundHour() {
         return lowerBoundHour;
     }
+
+
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        sb.append(policy.toString()+", ");
+        sb.append(budget+", ");
+        sb.append(maxBudget+", ");
+        sb.append(upperBoundHour+", ");
+        sb.append(lowerBoundHour+", ");
+        sb.append("]");
+        return sb.toString();
+    }
 }
