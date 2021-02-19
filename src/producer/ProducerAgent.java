@@ -104,9 +104,11 @@ public class ProducerAgent extends Agent implements SystemAgentManager {
     public String toString(){
         System.out.println("print of the producer's energies");
         StringBuilder sb = new StringBuilder();
+        sb.append("[");
         for (Energy engery :energies){
             sb.append(engery.toString());
         }
+        sb.append("]");
         return sb.toString();
     }
 
