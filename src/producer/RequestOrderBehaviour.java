@@ -1,6 +1,7 @@
 package producer;
 
 import energy.Energy;
+import energy.Order;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -18,22 +19,34 @@ public class RequestOrderBehaviour extends OneShotBehaviour {
         agent.doWait(1000);
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
         ACLMessage message = agent.receive(mt);
-        System.out.println("ok1");
-        if (message != null) {
-            System.out.println("ok2");
+        if (message != null && message.getConversationId().equals("make-order")) {
             try {
-                Energy energy = (Energy) message.getContentObject();
+                Order order = (Order) message.getContentObject();
                 ACLMessage response = message.createReply();
-                response.setPerformative(ACLMessage.REFUSE);
-                response.setContent("not available");
-                for(Energy e: agent.getEnergies()) {
-                    if(e.equals(energy)) { // equals à définir
-                        response.setPerformative(ACLMessage.ACCEPT_PROPOSAL);
-                        response.setContent("ok");
-                        //System.out.println("Available >>> " + e);
-                    }
+                response.setConversationId("request-order");
+
+                if(order.getEnergy().getQuantity() > 0) {
+                    response.setPerformative(ACLMessage.CONFIRM);
+                    response.setContent("available");
+                } else {
+                    response.setPerformative(ACLMessage.DISCONFIRM);
+                    response.setContent("full");
                 }
+
                 agent.send(response);
+
+                /*
+                Energy energy = (Energy) message.getContentObject();
+                response.setPerformative(ACLMessage.DISCONFIRM);
+                response.setContent("full");
+                for(Energy e: agent.getEnergies()) {
+                    if(e.equals(energy)) {
+                        response.setPerformative(ACLMessage.CONFIRM);
+                        response.setContent("available");
+                    }
+                }*/
+
+
             } catch (UnreadableException e) { e.printStackTrace(); }
         }
     }
