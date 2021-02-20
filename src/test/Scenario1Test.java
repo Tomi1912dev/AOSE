@@ -21,26 +21,27 @@ import producer.ProducerAgent;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SceanarioManyConsumer {
+public class Scenario1Test {
 
     @Test
-    void scenarioManyConsumer() {
+    void scenario1Test() {
         //configuration
         Runtime runtime = Runtime.instance();
-        Profile config = new ProfileImpl("localhost", 8889, null);
+        Profile config = new ProfileImpl("localhost", 8890, null);
         config.setParameter("gui", "true");
         //creating of agents
         AgentContainer mc = runtime.createMainContainer(config);
         AgentController systemAgent;
-        AgentController producerAgent1;
-        AgentController producerAgent2;
+        AgentController producerAgent;
         AgentController consumerAgent;
         //creating energies
         try {
-
-            Energy energy1 = new Energy(Type.RENEWABLE, 127.92, 5,8, 10);
-            Energy energy2 = new Energy(Type.CLASSIC, 127.20, 5,14, 18);
-            Energy energy3 = new Energy(Type.CLASSIC, 127.16, 5, 9, 10);
+            Energy[] energies = {
+                    new Energy(Type.RENEWABLE, 127.92, 5,8, 10),
+                    new Energy(Type.CLASSIC, 127.20, 5,14, 18),
+                    new Energy(Type.CLASSIC, 127.16, 5, 9, 10),
+                    new Energy(Type.RENEWABLE, 139.21, 5, 14, 17)
+            };
             //creating preferences
             Preference[] preference = { new Preference(Policy.RENEWABLE,
                     128.0, 10.0,
@@ -48,43 +49,47 @@ class SceanarioManyConsumer {
             //instanciate agents
             systemAgent = mc.createNewAgent("SystemAgent", SystemAgent.class.getName(), null);
             systemAgent.start();
-            producerAgent1 = mc.createNewAgent("ProducerAgent1", ProducerAgent.class.getName(), new Energy[]{energy2,energy3});
-            producerAgent1.start();
-            producerAgent2 = mc.createNewAgent("ProducerAgent2", ProducerAgent.class.getName(), new Energy[]{energy1});
-            producerAgent2.start();
+            producerAgent = mc.createNewAgent("ProducerAgent", ProducerAgent.class.getName(), energies);
+            producerAgent.start();
             consumerAgent = mc.createNewAgent("ConsumerAgent", ConsumerAgent.class.getName(), preference);
             consumerAgent.start();
             //creating interfacesAgents
             SystemAgentManager o2a = null;
             SystemAgentManager o2a1 = null;
-            SystemAgentManager o2a12 = null;
             ConsumerManager o2o2 = null;
 
             try{
                 o2a = systemAgent.getO2AInterface(SystemAgentManager.class);
-                o2a1 = producerAgent1.getO2AInterface(SystemAgentManager.class);
-                o2a12 = producerAgent2.getO2AInterface(SystemAgentManager.class);
+                o2a1 = producerAgent.getO2AInterface(SystemAgentManager.class);
                 o2o2 = consumerAgent.getO2AInterface(ConsumerManager.class);
             }catch(StaleProxyException e){e.printStackTrace();}
 
             assert(o2a!=null);
             assert(o2a1!=null);
-            assert(o2a12!=null);
             assert(o2o2!=null);
             Thread.sleep(30000);
+
             //print datas of agents
             System.out.println("affichage des energies de la market place");
             System.out.println(o2a.toString());
-            System.out.println("affichage des energies du producteur1");
+            assertEquals(o2a.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent.getName()+"][CLASSIC, 127.2€, 5 Qty, 14h/18h, "+producerAgent.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent.getName()+"][RENEWABLE, 139.21€, 5 Qty, 14h/17h, "+producerAgent.getName()+"]]");
+            //The market place contained all the energies.
+            System.out.println("affichage des energies du producteur");
             System.out.println(o2a1.toString());
-            System.out.println("affichage des energies du producteur2");
-            System.out.println(o2a12.toString());
+            assertEquals(o2a1.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent.getName()+"][CLASSIC, 127.2€, 5 Qty, 14h/18h, "+producerAgent.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent.getName()+"][RENEWABLE, 139.21€, 5 Qty, 14h/17h, "+producerAgent.getName()+"]]");
+
             System.out.println("affichage des preferences du consomateur");
             System.out.println(o2o2.toStringPreferences());
             Thread.sleep(30000);
+
             System.out.println("affichage du statut de la commande du consomateur");
             System.out.println(o2o2.getOrder().getStatus().toString());
+            //assertEquals(o2o2.getOrder().getStatus().toString(),"PAID");
+
+
 
         } catch (StaleProxyException | InterruptedException e) { e.printStackTrace(); }
     }
+
+
 }

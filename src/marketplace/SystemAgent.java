@@ -112,12 +112,12 @@ public class SystemAgent extends Agent implements SystemAgentManager {
 
     @Override
     public String toString(){
-        System.out.println("print of the market place's energies");
+        //System.out.println("print of the market place's energies");
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i<marketPlace.size();i++)
             sb.append( marketPlace.get(i).toString());
         sb.append("]");
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
         return sb.toString();
     }
 
