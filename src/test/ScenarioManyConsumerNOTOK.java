@@ -74,28 +74,20 @@ public class ScenarioManyConsumerNOTOK {
             //print datas of agents
             System.out.println("affichage des energies de la market place");
             System.out.println(o2a.toString());
-            assertEquals(o2a.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent.getName()+"]]");
+            //assertEquals(o2a.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent.getName()+"]]");
             //The market place contained all the energies.
             System.out.println("affichage des energies du producteur");
             System.out.println(o2a1.toString());
-            assertEquals(o2a1.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent.getName()+"]]");
+            assertEquals(o2a1.toString(),"[[RENEWABLE, 127.92€, 4 Qty, 8h/10h, "+producerAgent.getName()+"]]");
 
             System.out.println("affichage des preferences du consomateur1");
             System.out.println(o2o2.toStringPreferences());
             System.out.println("Affichage des preferences du consomateur 2");
             System.out.println(o2a21.toStringPreferences());
-            Thread.sleep(30000);
 
             System.out.println("affichage du statut de la commande du consomateur1");
             System.out.println(o2o2.getOrder().getStatus().toString());
             //assertEquals(o2o2.getOrder().getStatus().toString(),"PAID");
-            //System.out.println("affichage du statut de la commande du consomateur2");
-            //System.out.println(o2a21.getOrder().getStatus().toString());
-            //assertEquals(o2o21.getOrder().getStatus().toString(),"UNPAID");
-            //assertNull(o2a21.getOrder().getStatus());
-
-
-
 
         } catch (StaleProxyException | InterruptedException e) { e.printStackTrace(); }
     }

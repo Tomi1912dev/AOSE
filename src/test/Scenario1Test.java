@@ -88,10 +88,8 @@ public class Scenario1Test {
                 //System.out.println(o2o2.getOrder());
                 assertEquals(o2o2.getOrder().getStatus(), Status.PAID);
             } else {
-                System.out.println("pas de chance");
+                System.out.println("");
             }
-
-
 
         } catch (StaleProxyException | InterruptedException e) { e.printStackTrace(); }
     }

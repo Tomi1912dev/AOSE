@@ -40,11 +40,11 @@ public class ScenarioManyMany {
         try {
 
             Energy energy1 = new Energy(Type.RENEWABLE, 127.92, 5,8, 10);
-            Energy energy2 = new Energy(Type.CLASSIC, 127.20, 5,14, 18);
+            Energy energy2 = new Energy(Type.CLASSIC, 127.92, 5,8, 10);
             Energy energy3 = new Energy(Type.CLASSIC, 127.16, 5, 9, 10);
             //creating preferences
             Preference[] preference1 = { new Preference(Policy.RENEWABLE, 128.0, 10.0, 9, 10) };
-            Preference[] preference2 = { new Preference(Policy.PRICE, 130.0, 10.0, 14, 18) };
+            Preference[] preference2 = { new Preference(Policy.RENEWABLE, 128.0, 10.0, 9, 10) };
             //instanciate agents
             systemAgent = mc.createNewAgent("SystemAgent", SystemAgent.class.getName(), null);
             systemAgent.start();
@@ -84,19 +84,19 @@ public class ScenarioManyMany {
             //print datas of agents
             System.out.println("affichage des energies de la market place");
             System.out.println(o2a.toString());
-            assertEquals(o2a.toString(),"[[CLASSIC, 127.2€, 5 Qty, 14h/18h, "+producerAgent1.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent1.getName()+"][RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent2.getName()+"]]");
+            //assertEquals(o2a.toString(),"[[CLASSIC, 127.2€, 5 Qty, 14h/18h, "+producerAgent1.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent1.getName()+"][RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent2.getName()+"]]");
             System.out.println("affichage des energies du producteur1");
             System.out.println(o2a1.toString());
-            assertEquals(o2a1.toString(),"[[CLASSIC, 127.2€, 5 Qty, 14h/18h, "+producerAgent1.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent1.getName()+"]]");
+            assertEquals(o2a1.toString(),"[[CLASSIC, 127.92€, 5 Qty, 8h/10h, "+producerAgent1.getName()+"][CLASSIC, 127.16€, 5 Qty, 9h/10h, "+producerAgent1.getName()+"]]");
             System.out.println("affichage des energies du producteur2");
             System.out.println(o2a12.toString());
-            assertEquals(o2a12.toString(),"[[RENEWABLE, 127.92€, 5 Qty, 8h/10h, "+producerAgent2.getName()+"]]");
+            assertEquals(o2a12.toString(),"[[RENEWABLE, 127.92€, 3 Qty, 8h/10h, "+producerAgent2.getName()+"]]");
 
             System.out.println("affichage des preferences du consomateur1");
             System.out.println(o2o2.toStringPreferences());
             System.out.println("affichage des preferences du consomateur2");
             System.out.println(o2o21.toStringPreferences());
-            Thread.sleep(30000);
+
             System.out.println("affichage du statut de la commande du consomateur1");
             System.out.println(o2o2.getOrder().getStatus().toString());
             //assertEquals(o2o2.getOrder().getStatus().toString(),"PAID");

@@ -41,8 +41,8 @@ public class Scenario1NotOK {
                     new Energy(Type.RENEWABLE, 139.21, 5, 14, 17)
             };
             //creating preferences
-            Preference[] preference = { new Preference(Policy.RENEWABLE,
-                    110.0, 130.0,
+            Preference[] preference = { new Preference(Policy.PRICE,
+                    130.0, 130.0,
                     10, 12) };
             //instanciate agents
             systemAgent = mc.createNewAgent("SystemAgent", SystemAgent.class.getName(), null);
@@ -78,13 +78,6 @@ public class Scenario1NotOK {
 
             System.out.println("affichage des preferences du consomateur");
             System.out.println(o2o2.toStringPreferences());
-            Thread.sleep(30000);
-
-            System.out.println("affichage du statut de la commande du consomateur");
-            //System.out.println(o2o2.getOrder().getStatus().toString());
-            //assertEquals(o2o2.getOrder().getStatus().toString(),"UNPAID");
-
-
 
         } catch (StaleProxyException | InterruptedException e) { e.printStackTrace(); }
     }
