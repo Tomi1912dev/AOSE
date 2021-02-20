@@ -49,7 +49,8 @@ public class SystemAgent extends Agent {
                             List<Energy> energies = agent.marketPlace.stream()
                                     .filter(energy -> energy.getPrice() <= preference.getBudget()
                                             && energy.getLowerBoundHour() <= preference.getLowerBoundHour()
-                                            && energy.getUpperBoundHour() >= preference.getUpperBoundHour())
+                                            && energy.getUpperBoundHour() >= preference.getUpperBoundHour()
+                                            && energy.getQuantity() > 0)
                                     .sorted()
                                     .collect(Collectors.toList());
                             if(preference.getPolicy().equals(Policy.RENEWABLE)) {

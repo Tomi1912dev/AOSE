@@ -9,6 +9,7 @@ import jade.lang.acl.UnreadableException;
 
 public class RequestOrderBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
+    private int transition;
 
     public RequestOrderBehaviour(ProducerAgent agent) {
         this.agent = agent;
@@ -16,6 +17,7 @@ public class RequestOrderBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
+        this.transition = 1;
         agent.doWait(1000);
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
         ACLMessage message = agent.receive(mt);
@@ -24,30 +26,23 @@ public class RequestOrderBehaviour extends OneShotBehaviour {
                 Order order = (Order) message.getContentObject();
                 ACLMessage response = message.createReply();
                 response.setConversationId("request-order");
-
-                if(order.getEnergy().getQuantity() > 0) {
-                    response.setPerformative(ACLMessage.CONFIRM);
-                    response.setContent("available");
-                } else {
-                    response.setPerformative(ACLMessage.DISCONFIRM);
-                    response.setContent("full");
-                }
-
-                agent.send(response);
-
-                /*
-                Energy energy = (Energy) message.getContentObject();
                 response.setPerformative(ACLMessage.DISCONFIRM);
                 response.setContent("full");
-                for(Energy e: agent.getEnergies()) {
-                    if(e.equals(energy)) {
+
+                for(Energy energy : agent.getEnergies()) {
+                    if(energy.equals(order.getEnergy()) && energy.getQuantity() > 0) {
                         response.setPerformative(ACLMessage.CONFIRM);
                         response.setContent("available");
+                        this.transition = 0;
+                        break;
                     }
-                }*/
-
-
+                }
+                agent.send(response);
             } catch (UnreadableException e) { e.printStackTrace(); }
         }
+    }
+
+    public int onEnd() {
+        return transition;
     }
 }

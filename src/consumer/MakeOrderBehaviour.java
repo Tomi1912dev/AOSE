@@ -1,13 +1,10 @@
 package consumer;
 
 import energy.Energy;
-import jade.core.AID;
 import jade.core.behaviours.OneShotBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
-
-import java.util.HashMap;
 
 public class MakeOrderBehaviour extends OneShotBehaviour {
     private ConsumerAgent agent;
@@ -20,18 +17,30 @@ public class MakeOrderBehaviour extends OneShotBehaviour {
     @Override
     public void action() {
         //receive energies proposed by the marketplace
-        agent.doWait(5000);
+        this.transition = 1;
+        agent.doWait(1000);
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
         ACLMessage response = agent.receive(mt);
-        System.out.println("ok3");
-        if (response != null) {
-            System.out.println("ok4");
+        if(response != null) {
             try {
                 Energy[] energies = (Energy[]) response.getContentObject();
                 if(energies != null && energies.length > 0) {
-                    agent.makeOrder(energies[0]);
+                    agent.setEnergyProposed((Energy[]) response.getContentObject());
+                    agent.makeOrder();
+                    this.transition = 0;
+                } else {
+                    //search with more budget
+                    agent.setBackState(true);
                 }
             } catch (UnreadableException e) { e.printStackTrace(); }
+        } else if(agent.getBackState()) {
+            if(agent.getEnergySelected() <= agent.getEnergyProposed().length) {
+                agent.makeOrder();
+                this.transition = 0;
+                agent.setBackState(false);
+            } else {
+                agent.setBackState(true);
+            }
         }
     }
 

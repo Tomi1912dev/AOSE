@@ -20,9 +20,16 @@ public class ConsumerAgent extends Agent {
     private Preference[] preference;
     private Order order;
 
+    private boolean backState;
+    private int energySelected;
+    private Energy[] energyProposed;
+
     public static AID SYSTEM = new AID("SystemAgent", AID.ISLOCALNAME);
 
     protected void setup() {
+        this.backState = false;
+        this.energySelected = 0;
+
         this.preference = (Preference[]) getArguments();
         if (preference != null && preference.length > 0) {
             FSMBehaviour behaviour = new FSMBehaviour(this);
@@ -38,10 +45,12 @@ public class ConsumerAgent extends Agent {
             // Transitions
             behaviour.registerDefaultTransition(BEHAVIOUR_REGISTER, BEHAVIOUR_CHOOSE_PRODUCER);
             behaviour.registerDefaultTransition(BEHAVIOUR_CHOOSE_PRODUCER, BEHAVIOUR_MAKE_ORDER);
-            behaviour.registerDefaultTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER);
-            behaviour.registerDefaultTransition(BEHAVIOUR_PAY_ORDER, BEHAVIOUR_GET_ORDER);
+            behaviour.registerTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER, 0);
+            behaviour.registerTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_CHOOSE_PRODUCER, 1);
+            behaviour.registerTransition(BEHAVIOUR_PAY_ORDER, BEHAVIOUR_GET_ORDER, 0);
+            behaviour.registerTransition(BEHAVIOUR_PAY_ORDER, BEHAVIOUR_MAKE_ORDER, 1);
             behaviour.registerDefaultTransition(BEHAVIOUR_GET_ORDER, BEHAVIOUR_LAST);
-            //behaviour.registerTransition(BEHAVIOUR_MAKE_ORDER, BEHAVIOUR_PAY_ORDER, 0);
+
 
 
             addBehaviour(behaviour);
@@ -71,15 +80,18 @@ public class ConsumerAgent extends Agent {
         this.send(message);
     }
 
-    public void makeOrder(Energy energy) {
-        System.out.println(energy);
-        this.order = new Order(this.getAID(), energy);
-        ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
-        message.addReceiver(this.order.getEnergy().getProducer());
-        message.setConversationId("make-order");
-        try { message.setContentObject(this.order); }
-        catch (IOException e) { e.printStackTrace(); }
-        this.send(message);
+    public void makeOrder() {
+        if(energySelected < energyProposed.length) {
+            System.out.println(energyProposed[energySelected]);
+            this.order = new Order(this.getAID(), energyProposed[energySelected]);
+            ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
+            message.addReceiver(this.order.getEnergy().getProducer());
+            message.setConversationId("make-order");
+            try { message.setContentObject(this.order); }
+            catch (IOException e) { e.printStackTrace(); }
+            this.send(message);
+            this.energySelected += 1;
+        }
     }
 
     public void payOrder() {
@@ -89,5 +101,29 @@ public class ConsumerAgent extends Agent {
         try { message.setContentObject(this.order); }
         catch (IOException e) { e.printStackTrace(); }
         this.send(message);
+    }
+
+    public boolean getBackState() {
+        return backState;
+    }
+
+    public void setBackState(boolean backState) {
+        this.backState = backState;
+    }
+
+    public int getEnergySelected() {
+        return energySelected;
+    }
+
+    public Energy[] getEnergyProposed() {
+        return energyProposed;
+    }
+
+    public void setEnergyProposed(Energy[] energyProposed) {
+        this.energyProposed = energyProposed;
+    }
+
+    public Preference getPreference() {
+        return preference[0];
     }
 }

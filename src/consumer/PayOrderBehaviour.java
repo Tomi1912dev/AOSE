@@ -14,11 +14,16 @@ public class PayOrderBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
+        this.transition = 1;
         MessageTemplate mt = MessageTemplate.MatchConversationId("request-order");
         ACLMessage message = agent.receive(mt);
         if (message != null) {
             if (message.getPerformative() == ACLMessage.CONFIRM) {
                 agent.payOrder();
+                this.transition = 0;
+            } else {
+                //when producer is full
+                agent.setBackState(true);
             }
         }
     }
