@@ -13,7 +13,7 @@ public class ConfirmOrderBehaviour extends OneShotBehaviour {
     @Override
     public void action() {
         this.transition = 1;
-        agent.doWait(1000);
+        agent.doWait(10000);
         agent.confirmOrder();
         if(agent.allEnergyEmpty()) {
             this.transition = 0;
