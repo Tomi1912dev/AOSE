@@ -37,4 +37,14 @@ public class Order implements Serializable {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("[");
+        sb.append(id + ", ")
+                .append(consumer.getName() + ", ")
+                .append(energy.toString() + ", ")
+                .append(status + "]");
+        return sb.toString();
+    }
 }

@@ -21,6 +21,7 @@ public class GetOrderBehaviour extends OneShotBehaviour {
         if (message != null && message.getPerformative() == ACLMessage.CONFIRM) {
             try {
                 Order order = (Order) message.getContentObject();
+                agent.setOrder(order);
                 System.out.println(order.getEnergy().getPrice() + "€ - " + order.getStatus());
             } catch (UnreadableException e) { e.printStackTrace(); }
         }

@@ -4,6 +4,7 @@ import consumer.ConsumerAgent;
 import consumer.Policy;
 import consumer.Preference;
 import energy.Energy;
+import energy.Status;
 import energy.Type;
 import interfaces.ConsumerManager;
 import interfaces.SystemAgentManager;
@@ -66,7 +67,7 @@ public class Scenario1Test {
 
             assert(o2a!=null);
             assert(o2a1!=null);
-            assert(o2o2!=null);
+            //assert(o2o2!=null);
             Thread.sleep(30000);
 
             //print datas of agents
@@ -78,13 +79,17 @@ public class Scenario1Test {
             System.out.println(o2a1.toString());
             assertEquals(o2a1.toString(),"[[RENEWABLE, 127.92€, 0 Qty, 8h/10h, "+producerAgent.getName()+"][CLASSIC, 127.2€, 0 Qty, 14h/18h, "+producerAgent.getName()+"][CLASSIC, 127.16€, 0 Qty, 9h/10h, "+producerAgent.getName()+"][RENEWABLE, 139.21€, 0 Qty, 14h/17h, "+producerAgent.getName()+"]]");
 
-            System.out.println("affichage des preferences du consomateur");
-            System.out.println(o2o2.toStringPreferences());
-            //Thread.sleep(30000);
+            if(o2o2 != null) {
+                System.out.println("affichage des preferences du consomateur");
+                System.out.println(o2o2.toStringPreferences());
+                //Thread.sleep(30000);
 
-            System.out.println("affichage du statut de la commande du consomateur");
-            System.out.println(o2o2.getOrder().getStatus().toString());
-            //assertEquals(o2o2.getOrder().getStatus().toString(),"PAID");
+                System.out.println("affichage du statut de la commande du consomateur");
+                //System.out.println(o2o2.getOrder());
+                assertEquals(o2o2.getOrder().getStatus(), Status.PAID);
+            } else {
+                System.out.println("pas de chance");
+            }
 
 
 

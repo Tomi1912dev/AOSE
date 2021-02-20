@@ -3,7 +3,6 @@ package consumer;
 import energy.Energy;
 import energy.Order;
 import interfaces.ConsumerManager;
-import interfaces.SystemAgentManager;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
@@ -128,6 +127,10 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
 
     public Preference getPreference() {
         return preference[0];
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
