@@ -11,7 +11,7 @@ public class RegisterBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        agent.doWait(5000);
+       // agent.doWait(5000);
         agent.register();
     }
 }

@@ -3,6 +3,7 @@ package producer;
 import energy.Energy;
 import energy.Order;
 import energy.Status;
+import interfaces.SystemAgentManager;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.FSMBehaviour;
@@ -12,7 +13,7 @@ import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
 
-public class ProducerAgent<p> extends Agent {
+public class ProducerAgent extends Agent implements SystemAgentManager {
     private static final String BEHAVIOUR_REGISTER = "register";
     private static final String BEHAVIOUR_PUBLISH = "publish";
     private static final String BEHAVIOUR_REQUEST_ORDER = "requestOrder";
@@ -23,6 +24,7 @@ public class ProducerAgent<p> extends Agent {
 
     protected void setup() {
         this.energies = (Energy[]) getArguments();
+        registerO2AInterface(SystemAgentManager.class,this);
         if (energies != null && energies.length > 0) {
             for(Energy energy: energies) { energy.setProducer(this.getAID()); }
 
@@ -109,6 +111,18 @@ public class ProducerAgent<p> extends Agent {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString(){
+        //System.out.println("print of the producer's energies");
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (Energy engery :energies){
+            sb.append(engery.toString());
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
 }

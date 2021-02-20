@@ -4,6 +4,7 @@ import consumer.Policy;
 import consumer.Preference;
 import energy.Energy;
 import energy.Type;
+import interfaces.SystemAgentManager;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.ParallelBehaviour;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SystemAgent extends Agent {
+public class SystemAgent extends Agent implements SystemAgentManager {
     private List<Energy> marketPlace;
     private static final int RATE_REGISTER = 100;
     private List<AID> consumers;
@@ -26,7 +27,7 @@ public class SystemAgent extends Agent {
         marketPlace = new ArrayList<>();
         consumers = new ArrayList<>();
         producers = new ArrayList<>();
-
+        registerO2AInterface(SystemAgentManager.class,this);
         ParallelBehaviour behaviour = new ParallelBehaviour(ParallelBehaviour.WHEN_ALL);
 
         //Register
@@ -107,6 +108,18 @@ public class SystemAgent extends Agent {
         });
 
         addBehaviour(behaviour);
+    }
+
+
+    @Override
+    public String toString(){
+        //System.out.println("print of the market place's energies");
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i<marketPlace.size();i++)
+            sb.append( marketPlace.get(i).toString());
+        sb.append("]");
+        //System.out.println(sb.toString());
+        return sb.toString();
     }
 
     @Override
