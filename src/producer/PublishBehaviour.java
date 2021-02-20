@@ -11,7 +11,7 @@ public class PublishBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        agent.doWait(1000);
+        //agent.doWait(1000);
         agent.submitEnergyPrice();
     }
 }

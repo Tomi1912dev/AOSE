@@ -85,7 +85,7 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
 
     public void makeOrder() {
         if(energySelected < energyProposed.length) {
-            System.out.println(energyProposed[energySelected]);
+            //System.out.println(energyProposed[energySelected]);
             this.order = new Order(this.getAID(), energyProposed[energySelected]);
             ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
             message.addReceiver(this.order.getEnergy().getProducer());

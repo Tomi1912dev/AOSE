@@ -42,7 +42,7 @@ public class Scenario1NotOK {
             };
             //creating preferences
             Preference[] preference = { new Preference(Policy.RENEWABLE,
-                    110.0, 10.0,
+                    110.0, 130.0,
                     10, 12) };
             //instanciate agents
             systemAgent = mc.createNewAgent("SystemAgent", SystemAgent.class.getName(), null);
