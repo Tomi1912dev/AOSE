@@ -17,6 +17,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Simulates the behavior of a marketplace.
+ * Two TickerBehaviour which works in parallel with a ParallelBehaviour.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class SystemAgent extends Agent implements SystemAgentManager {
     private List<Energy> marketPlace;
     private static final int RATE_REGISTER = 100;

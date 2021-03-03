@@ -10,6 +10,13 @@ import jade.lang.acl.ACLMessage;
 
 import java.io.IOException;
 
+/**
+ * Simulates the behavior of a consumer.
+ * FSMBehaviour with 5 states and 6 transitions.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class ConsumerAgent extends Agent implements ConsumerManager {
     private static final String BEHAVIOUR_REGISTER = "register";
     private static final String BEHAVIOUR_CHOOSE_PRODUCER = "chooseProducer";
@@ -64,6 +71,11 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
         //to do
     }
 
+    /**
+     * Sends a request to the marketplace to register.
+     *
+     * @see consumer.RegisterBehaviour
+     */
     public void register() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
         message.addReceiver(SYSTEM);
@@ -73,6 +85,12 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
         this.send(message);
     }
 
+    /**
+     * Sends a request with preference to the marketplace.
+     * The marketplace return the energies corresponding to consumer's preference.
+     *
+     * @see consumer.ChooseProducerBehaviour
+     */
     public void choose() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
         message.addReceiver(SYSTEM);
@@ -82,9 +100,14 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
         this.send(message);
     }
 
+    /**
+     * sends a message to the energy producer asking
+     * if the energy is still available.
+     *
+     * @see consumer.MakeOrderBehaviour
+     */
     public void makeOrder() {
         if(energySelected < energyProposed.length) {
-            //System.out.println(energyProposed[energySelected]);
             this.order = new Order(this.getAID(), energyProposed[energySelected]);
             ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
             message.addReceiver(this.order.getEnergy().getProducer());
@@ -96,6 +119,12 @@ public class ConsumerAgent extends Agent implements ConsumerManager {
         }
     }
 
+    /**
+     * sends a message to the energy producer
+     * to tell him that he is buying the energy (in the order).
+     *
+     * @see consumer.PayOrderBehaviour
+     */
     public void payOrder() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
         message.addReceiver(this.order.getEnergy().getProducer());

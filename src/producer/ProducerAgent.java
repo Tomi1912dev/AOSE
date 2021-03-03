@@ -13,6 +13,13 @@ import jade.lang.acl.UnreadableException;
 
 import java.io.IOException;
 
+/**
+ * Simulates the behavior of a producer.
+ * FSMBehaviour with 5 states and 6 transitions.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class ProducerAgent extends Agent implements SystemAgentManager {
     private static final String BEHAVIOUR_REGISTER = "register";
     private static final String BEHAVIOUR_PUBLISH = "publish";
@@ -60,6 +67,11 @@ public class ProducerAgent extends Agent implements SystemAgentManager {
         return energies;
     }
 
+    /**
+     * Sends a request to the marketplace to register.
+     *
+     * @see consumer.RegisterBehaviour
+     */
     public void register() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST);
         message.addReceiver(SYSTEM);
@@ -69,6 +81,11 @@ public class ProducerAgent extends Agent implements SystemAgentManager {
         this.send(message);
     }
 
+    /**
+     * Sends all energy offers to the marketplace.
+     *
+     * @see producer.PublishBehaviour
+     */
     public void submitEnergyPrice() {
         ACLMessage message = new ACLMessage(ACLMessage.REQUEST_WHEN);
         message.addReceiver(SYSTEM);
@@ -78,6 +95,12 @@ public class ProducerAgent extends Agent implements SystemAgentManager {
         this.send(message);
     }
 
+    /**
+     * Responds to a consumer if the energy is still available
+     * (quantity greater than zero).
+     *
+     * @see producer.ConfirmOrderBehaviour
+     */
     public void confirmOrder() {
         MessageTemplate mt = MessageTemplate.MatchConversationId("pay-order");
         ACLMessage message = this.receive(mt);
@@ -104,6 +127,12 @@ public class ProducerAgent extends Agent implements SystemAgentManager {
         }
     }
 
+    /**
+     * Checks if a producer has no more available offers.
+     *
+     * @return boolean which represents all the offers are empty
+     * @see producer.ConfirmOrderBehaviour
+     */
     public boolean allEnergyEmpty() {
         for(Energy energy: energies) {
             if(energy.getQuantity() > 0) {
