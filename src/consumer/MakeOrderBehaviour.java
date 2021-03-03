@@ -6,6 +6,13 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
+/**
+ * Receive the energies proposed by the marketplace.
+ * Make order to producer.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class MakeOrderBehaviour extends OneShotBehaviour {
     private ConsumerAgent agent;
     private int transition;
@@ -16,7 +23,6 @@ public class MakeOrderBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        //receive energies proposed by the marketplace
         this.transition = 1;
         agent.doWait(1000);
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);

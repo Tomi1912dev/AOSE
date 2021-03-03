@@ -7,6 +7,13 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
+/**
+ * Receive a purchase proposal from a consumer.
+ * Returns a positive or negative response depending on the availability of energy.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class RequestOrderBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
     private int transition;
