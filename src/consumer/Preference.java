@@ -2,6 +2,15 @@ package consumer;
 
 import java.io.Serializable;
 
+/**
+ * Define the preference of consumer agent.
+ * The consumer has a policy, a budget, a max budget (used when
+ * the basic budget does not allow to buy energy) and the time slot
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ * @see consumer.Policy
+ */
 public class Preference implements Serializable {
     private Policy policy;
     private double budget;

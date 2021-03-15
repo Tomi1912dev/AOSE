@@ -6,6 +6,12 @@ import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
+/**
+ * Receive confirmation that the order has been performed.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class GetOrderBehaviour extends OneShotBehaviour {
     private ConsumerAgent agent;
 

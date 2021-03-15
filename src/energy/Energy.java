@@ -4,6 +4,19 @@ import jade.core.AID;
 
 import java.io.Serializable;
 
+/**
+ * Definition of energy.
+ * The energy is composed with :
+ * - type of energy
+ * - price of energy
+ * - quantity available
+ * - time slot
+ * - JADE Agent Identifier (contains the name and the address) of producer.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ * @see Type
+ */
 public class Energy implements Serializable, Comparable<Energy> {
     private Type type;
     private double price;

@@ -2,6 +2,15 @@ package producer;
 
 import jade.core.behaviours.OneShotBehaviour;
 
+/**
+ * Confirm order of consumer.
+ * If the producer has no more available energy then he stops his execution
+ * otherwise it remains on standby.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ * @see ProducerAgent#confirmOrder()
+ */
 public class ConfirmOrderBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
     private int transition;

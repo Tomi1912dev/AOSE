@@ -2,6 +2,14 @@ package consumer;
 
 import jade.core.behaviours.OneShotBehaviour;
 
+/**
+ * Register on the marketplace.
+ * Send a JADE Agent Identifier (contains the name and the address).
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ * @see ConsumerAgent#register()
+ */
 public class RegisterBehaviour extends OneShotBehaviour {
     private ConsumerAgent agent;
 
@@ -11,7 +19,6 @@ public class RegisterBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-       // agent.doWait(5000);
         agent.register();
     }
 }

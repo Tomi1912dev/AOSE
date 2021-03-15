@@ -2,6 +2,13 @@ package producer;
 
 import jade.core.behaviours.OneShotBehaviour;
 
+/**
+ * Submit a list of energy to the marketplace.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ * @see ProducerAgent#submitEnergyPrice()
+ */
 public class PublishBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
 
@@ -11,7 +18,6 @@ public class PublishBehaviour extends OneShotBehaviour {
 
     @Override
     public void action() {
-        //agent.doWait(1000);
         agent.submitEnergyPrice();
     }
 }

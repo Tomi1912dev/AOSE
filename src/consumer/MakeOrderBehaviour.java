@@ -7,11 +7,11 @@ import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 
 /**
- * Receive the energies proposed by the marketplace.
- * Make order to producer.
+ * Make order to producer based on consumer preferences.
  *
  * @author Tomi Cottrelle
  * @version 1.0.0
+ * @see ConsumerAgent#makeOrder()
  */
 public class MakeOrderBehaviour extends OneShotBehaviour {
     private ConsumerAgent agent;

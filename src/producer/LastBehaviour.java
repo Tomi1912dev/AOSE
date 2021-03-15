@@ -2,6 +2,12 @@ package producer;
 
 import jade.core.behaviours.OneShotBehaviour;
 
+/**
+ * Behaviour which allows to say that the producer agent has finished its execution.
+ *
+ * @author Tomi Cottrelle
+ * @version 1.0.0
+ */
 public class LastBehaviour extends OneShotBehaviour {
     private ProducerAgent agent;
 
